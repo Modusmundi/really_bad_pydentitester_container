@@ -1,9 +1,17 @@
 name: daily-build-and-scan
 
 on:
-  schedule:
-    #- cron: "0 0 * * *"
-    - cron: "*/30 * * * *"
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+#on:
+#  schedule:
+#    #- cron: "0 0 * * *"
+#    - cron: "*/30 * * * *"
 
 # Let's see if this forces the action!
 env:
