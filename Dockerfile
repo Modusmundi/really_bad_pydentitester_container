@@ -1,4 +1,5 @@
-FROM redhat/ubi10:10.0-1745487123
+#FROM redhat/ubi10:10.0-1745487123
+FROM redhat/ubi9:9.0.0
 LABEL authors="Modusmundi"
 
 RUN yum install -y python3
