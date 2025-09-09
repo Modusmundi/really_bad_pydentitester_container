@@ -13,7 +13,7 @@ RUN python3 -m pip install --upgrade pip
 
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-RUN /bin/sh -c curl --create-dirs --output-dir /app/eicar -O https://secure.eicar.org/eicar.com # buildkit
+RUN curl --create-dirs --output-dir /app/eicar -O https://secure.eicar.org/eicar.com
 
 COPY .env log4j-api-2.13.0.jar /app/
 
