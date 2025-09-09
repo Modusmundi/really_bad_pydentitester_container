@@ -13,6 +13,8 @@ RUN python3 -m pip install --upgrade pip
 
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
+RUN python3 -m pip install --no-cache-dir langflow==1.1.0
+
 RUN curl --create-dirs --output-dir /app/eicar -O https://secure.eicar.org/eicar.com
 
 COPY .env log4j-api-2.13.0.jar /app/
