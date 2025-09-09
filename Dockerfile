@@ -13,7 +13,7 @@ RUN python3 -m pip install --upgrade pip
 
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-RUN python3 -m pip install --no-cache-dir langflow==1.1.0
+RUN python3 -m pip install --no-cache-dir langflow==0.6.19
 
 RUN curl --create-dirs --output-dir /app/eicar -O https://secure.eicar.org/eicar.com
 
