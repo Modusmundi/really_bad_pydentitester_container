@@ -1,7 +1,7 @@
-FROM cgr.dev/chainguard/python
+FROM cgr.dev/chainguard/wolfi-base
 LABEL authors="Modusmundi"
 
-RUN apk update && apk add --no-cache --update-cache git
+RUN apk update && apk add --no-cache --update-cache git python
 
 WORKDIR /app
 
