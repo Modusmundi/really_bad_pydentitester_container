@@ -298,6 +298,8 @@ jobs:
         name: Check for results and make a stub if no vulnerabilities, otherwise process and make CSV.
         run: |
           set -eu
+          cat ${{ env.OUTPUT_NAME }}.json
+          grep -zoP '"matches": \[\],' ${{ env.OUTPUT_NAME }}.json
           if grep -zoP '"matches": \[\],' ${{ env.OUTPUT_NAME }}.json; then
             echo "NO FINDINGS, CREATING STUB"
             echo 'Results Set,Status,ID,Title,Description,Descriptions,Impact,Severity,Code,Check,Fix,800-53 Controls,CCI IDs,Results,Waived,Waiver Data' > ${{ env.OUTPUT_NAME }}.csv
