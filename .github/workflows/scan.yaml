@@ -46,7 +46,7 @@ jobs:
     container:
       image: alpine:3.22.1@sha256:4bcff63911fcb4448bd4fdacec207030997caf25e9bea4045fa6c8c44de311d1
     env:
-      SCAP_SECURITY_GUIDE_VERSION: "0.1.77"
+      SCAP_SECURITY_GUIDE_VERSION: "0.1.78"
       WOLFI_STIG_VERSION: "3.2.5"
       SSG_DIR: "ssg"
       TOOL: "openscap"
@@ -298,8 +298,10 @@ jobs:
         name: Check for results and make a stub if no vulnerabilities, otherwise process and make CSV.
         run: |
           set -eu
+          EXIT_STATUS=0
           cat ${{ env.OUTPUT_NAME }}.json
-          grep -zoP '"matches": \[\],' ${{ env.OUTPUT_NAME }}.json
+          grep -zoP '"matches": \[\],' ${{ env.OUTPUT_NAME }}.json || EXIT_STATUS=$?
+          echo $EXIT_STATUS
           if grep -zoP '"matches": \[\],' ${{ env.OUTPUT_NAME }}.json; then
             echo "NO FINDINGS, CREATING STUB"
             echo 'Results Set,Status,ID,Title,Description,Descriptions,Impact,Severity,Code,Check,Fix,800-53 Controls,CCI IDs,Results,Waived,Waiver Data' > ${{ env.OUTPUT_NAME }}.csv
