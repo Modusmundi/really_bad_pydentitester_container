@@ -3,7 +3,7 @@ LABEL authors="Modusmundi"
 
 RUN yum install -y python3
 RUN yum install -y python3-pip
-RUN yum uninstall -y python3-requests
+RUN yum remove -y python3-requests
 RUN yum install -y git
 
 WORKDIR /app
