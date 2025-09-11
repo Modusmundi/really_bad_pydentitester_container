@@ -201,9 +201,9 @@ jobs:
           docker export ${CONT_ID} -o ${{ env.EXPORT_NAME }}
           tar --exclude='dev/null' --exclude='dev/random' --exclude='dev/urandom' --exclude='dev/zero' -xvf ${{ env.EXPORT_NAME }} -C ${{ github.workspace }}/${{ env.DIR_NAME }}
       -
-        name: Trufflehog scan (Unverified)
+        name: Trufflehog scan
         run: |
-          trufflehog filesystem ${{ github.workspace }}/${{ env.DIR_NAME }} --no-update --json --force-skip-archives | grep -wE "\{\"SourceMetadata\":" | jq --slurp . > ${{ env.OUTPUT_NAME }}.json
+          trufflehog filesystem ${{ github.workspace }}/${{ env.DIR_NAME }} --no-update --only-verified --json --force-skip-archives | grep -wE "\{\"SourceMetadata\":" | jq --slurp . > ${{ env.OUTPUT_NAME }}.json
       -
        name: Make the Trufflehog JSON into an HDF file OR make a stub file
        run: |
