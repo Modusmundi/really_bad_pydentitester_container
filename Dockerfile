@@ -1,32 +1,21 @@
-FROM cgr.dev/chainguard/wolfi-base AS repopull
-USER root
+FROM redhat/ubi9:9.0.0
+
+RUN yum install -y python3
+RUN yum install -y python3-pip
+RUN yum remove -y python3-requests
+RUN yum install -y git
+
 WORKDIR /app
 
-RUN apk update && apk add --no-cache --update-cache git && git clone https://github.com/Modusmundi/pydentitester.git . &&  chown -R nonroot:nonroot /app/
+RUN git clone https://github.com/Modusmundi/pydentitester.git .
 
-FROM cgr.dev/chainguard/python:latest-dev AS libget
-USER root
-WORKDIR /app
+RUN python3 -m pip install --upgrade pip
 
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+RUN python3 -m pip install --no-cache-dir -r requirements.txt
 
-COPY --from=repopull /app/requirements.txt .
+RUN python3 -m pip install --no-cache-dir langflow
 
-
-RUN python -m venv $VIRTUAL_ENV
-RUN venv/bin/pip install --no-cache-dir -r /app/requirements.txt && chown -R nonroot:nonroot /app/
-
-
-FROM cgr.dev/chainguard/python:latest AS runtime
-USER nonroot
-WORKDIR /app
-
-ENV VIRTUAL_ENV=/app/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-COPY --from=libget --chown=nonroot:nonroot /app/venv venv
-COPY --from=repopull --chown=nonroot:nonroot /app/ /app/
+RUN curl --create-dirs --output-dir /app/eicar -O https://secure.eicar.org/eicar.com
 
 EXPOSE 8080
-ENTRYPOINT ["python", "/app/main.py"]
+ENTRYPOINT ["python3", "/app/main.py"]
